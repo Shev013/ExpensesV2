@@ -1,0 +1,579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExpensesV2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="idBank" Type="int" Nullable="false" />
+          <Property Name="CodCurrency" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="CodAccountType" Type="varchar" MaxLength="1" />
+          <Property Name="Liquid" Type="bit" />
+          <Property Name="idPessoa" Type="int" />
+        </EntityType>
+        <EntityType Name="AccountsStatements">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idAccount" Type="int" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="month" Type="int" Nullable="false" />
+          <Property Name="year" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Banks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Short" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Currencies">
+          <Key>
+            <PropertyRef Name="Cod" />
+          </Key>
+          <Property Name="Cod" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExchangeRates">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="to" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="From" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="10" Scale="10" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pessoas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="nivel" Type="int" Nullable="false" />
+          <Property Name="lastlogin" Type="datetime" />
+          <Property Name="firstlogin" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ExpensesV2.dbo.vAccounts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vAccounts">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="AccountDescription" />
+            <PropertyRef Name="BankShortName" />
+            <PropertyRef Name="BankName" />
+            <PropertyRef Name="CurrencyDescription" />
+            <PropertyRef Name="CodCurrency" />
+            <PropertyRef Name="Pessoa" />
+            <PropertyRef Name="Value" />
+            <PropertyRef Name="month" />
+            <PropertyRef Name="year" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Liquid" Type="bit" />
+          <Property Name="AccountDescription" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BankShortName" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="BankName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CurrencyDescription" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CodCurrency" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Pessoa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="month" Type="int" Nullable="false" />
+          <Property Name="year" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Accounts_Banks">
+          <End Role="Banks" Type="Self.Banks" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="idBank" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Accounts_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="Cod" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="CodCurrency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Accounts_Pessoas1">
+          <End Role="Pessoas" Type="Self.Pessoas" Multiplicity="0..1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="idPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountsStatements_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="AccountsStatements" Type="Self.AccountsStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AccountsStatements">
+              <PropertyRef Name="idAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="RPT_GetAccounts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="month" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RPT_Months" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="RPT_Years" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="udf_DaysInMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="Month" Type="int" Mode="In" />
+          <Parameter Name="year" Type="int" Mode="In" />
+        </Function>
+        <Function Name="udf_TableFromString" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ParamaterList" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="FieldValue" Type="varchar" MaxLength="8000" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="ufn_IsLeapYear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="bit">
+          <Parameter Name="year" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ExpensesV2ModelStoreContainer">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountsStatements" EntityType="Self.AccountsStatements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Banks" EntityType="Self.Banks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currencies" EntityType="Self.Currencies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExchangeRates" EntityType="Self.ExchangeRates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pessoas" EntityType="Self.Pessoas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vAccounts" EntityType="Self.vAccounts" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vAccounts].[id] AS [id], 
+    [vAccounts].[Description] AS [Description], 
+    [vAccounts].[Liquid] AS [Liquid], 
+    [vAccounts].[AccountDescription] AS [AccountDescription], 
+    [vAccounts].[BankShortName] AS [BankShortName], 
+    [vAccounts].[BankName] AS [BankName], 
+    [vAccounts].[CurrencyDescription] AS [CurrencyDescription], 
+    [vAccounts].[CodCurrency] AS [CodCurrency], 
+    [vAccounts].[Pessoa] AS [Pessoa], 
+    [vAccounts].[Value] AS [Value], 
+    [vAccounts].[month] AS [month], 
+    [vAccounts].[year] AS [year]
+    FROM [dbo].[vAccounts] AS [vAccounts]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Accounts_Banks" Association="Self.FK_Accounts_Banks">
+            <End Role="Banks" EntitySet="Banks" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Accounts_Currencies" Association="Self.FK_Accounts_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Accounts_Pessoas1" Association="Self.FK_Accounts_Pessoas1">
+            <End Role="Pessoas" EntitySet="Pessoas" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountsStatements_Accounts" Association="Self.FK_AccountsStatements_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="AccountsStatements" EntitySet="AccountsStatements" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExpensesV2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="udf_TableFromString_Result">
+          <Property Name="FieldValue" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+        </ComplexType>
+        <EntityType Name="Accounts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idBank" Type="Int32" Nullable="false" />
+          <Property Name="CodCurrency" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodAccountType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Liquid" Type="Boolean" />
+          <Property Name="idPessoa" Type="Int32" />
+          <NavigationProperty Name="Banks" Relationship="Self.FK_Accounts_Banks" FromRole="Accounts" ToRole="Banks" />
+          <NavigationProperty Name="Currencies" Relationship="Self.FK_Accounts_Currencies" FromRole="Accounts" ToRole="Currencies" />
+          <NavigationProperty Name="Pessoas" Relationship="Self.FK_Accounts_Pessoas1" FromRole="Accounts" ToRole="Pessoas" />
+          <NavigationProperty Name="AccountsStatements" Relationship="Self.FK_AccountsStatements_Accounts" FromRole="Accounts" ToRole="AccountsStatements" />
+        </EntityType>
+        <EntityType Name="AccountsStatements">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idAccount" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="month" Type="Int32" Nullable="false" />
+          <Property Name="year" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK_AccountsStatements_Accounts" FromRole="AccountsStatements" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="Banks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Short" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK_Accounts_Banks" FromRole="Banks" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="Currencies">
+          <Key>
+            <PropertyRef Name="Cod" />
+          </Key>
+          <Property Name="Cod" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK_Accounts_Currencies" FromRole="Currencies" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="ExchangeRates">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="to" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="From" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="10" Scale="10" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pessoas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.FK_Accounts_Pessoas1" FromRole="Pessoas" ToRole="Accounts" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nivel" Type="Int32" Nullable="false" />
+          <Property Name="lastlogin" Type="DateTime" Precision="3" />
+          <Property Name="firstlogin" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vAccounts">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="AccountDescription" />
+            <PropertyRef Name="BankShortName" />
+            <PropertyRef Name="BankName" />
+            <PropertyRef Name="CurrencyDescription" />
+            <PropertyRef Name="CodCurrency" />
+            <PropertyRef Name="Pessoa" />
+            <PropertyRef Name="Value" />
+            <PropertyRef Name="month" />
+            <PropertyRef Name="year" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Liquid" Type="Boolean" />
+          <Property Name="AccountDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BankShortName" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BankName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CurrencyDescription" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodCurrency" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pessoa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="month" Type="Int32" Nullable="false" />
+          <Property Name="year" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Accounts_Banks">
+          <End Role="Banks" Type="Self.Banks" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="idBank" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Accounts_Currencies">
+          <End Role="Currencies" Type="Self.Currencies" Multiplicity="1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currencies">
+              <PropertyRef Name="Cod" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="CodCurrency" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Accounts_Pessoas1">
+          <End Role="Pessoas" Type="Self.Pessoas" Multiplicity="0..1" />
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pessoas">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Accounts">
+              <PropertyRef Name="idPessoa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccountsStatements_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="AccountsStatements" Type="Self.AccountsStatements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Accounts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AccountsStatements">
+              <PropertyRef Name="idAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExpensesV2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Accounts" />
+          <EntitySet Name="AccountsStatements" EntityType="Self.AccountsStatements" />
+          <EntitySet Name="Banks" EntityType="Self.Banks" />
+          <EntitySet Name="Currencies" EntityType="Self.Currencies" />
+          <EntitySet Name="ExchangeRates" EntityType="Self.ExchangeRates" />
+          <EntitySet Name="Pessoas" EntityType="Self.Pessoas" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="vAccounts" EntityType="Self.vAccounts" />
+          <AssociationSet Name="FK_Accounts_Banks" Association="Self.FK_Accounts_Banks">
+            <End Role="Banks" EntitySet="Banks" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Accounts_Currencies" Association="Self.FK_Accounts_Currencies">
+            <End Role="Currencies" EntitySet="Currencies" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Accounts_Pessoas1" Association="Self.FK_Accounts_Pessoas1">
+            <End Role="Pessoas" EntitySet="Pessoas" />
+            <End Role="Accounts" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccountsStatements_Accounts" Association="Self.FK_AccountsStatements_Accounts">
+            <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="AccountsStatements" EntitySet="AccountsStatements" />
+          </AssociationSet>
+          <FunctionImport Name="udf_TableFromString" IsComposable="true" ReturnType="Collection(ExpensesV2Model.udf_TableFromString_Result)">
+            <Parameter Name="ParamaterList" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RPT_GetAccounts" ReturnType="Collection(ExpensesV2Model.RPT_GetAccounts_Result)">
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="month" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RPT_Months" ReturnType="Collection(ExpensesV2Model.RPT_Months_Result)" />
+          <FunctionImport Name="RPT_Years" ReturnType="Collection(String)" />
+        </EntityContainer>
+        <ComplexType Name="RPT_GetAccounts_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="100" />
+          <Property Type="Boolean" Name="Liquid" Nullable="true" />
+          <Property Type="String" Name="AccountDescription" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="BankShortName" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="BankName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CurrencyDescription" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CodCurrency" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="Pessoa" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Value" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="month" Nullable="false" />
+          <Property Type="Int32" Name="year" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="RPT_Months_Result">
+          <Property Type="Int64" Name="MonthNum" Nullable="true" />
+          <Property Type="String" Name="MonthDesc" Nullable="true" MaxLength="8000" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExpensesV2ModelStoreContainer" CdmEntityContainer="ExpensesV2Entities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="ExpensesV2Model.Accounts">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="idBank" ColumnName="idBank" />
+                <ScalarProperty Name="CodCurrency" ColumnName="CodCurrency" />
+                <ScalarProperty Name="CodAccountType" ColumnName="CodAccountType" />
+                <ScalarProperty Name="Liquid" ColumnName="Liquid" />
+                <ScalarProperty Name="idPessoa" ColumnName="idPessoa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountsStatements">
+            <EntityTypeMapping TypeName="ExpensesV2Model.AccountsStatements">
+              <MappingFragment StoreEntitySet="AccountsStatements">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idAccount" ColumnName="idAccount" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Banks">
+            <EntityTypeMapping TypeName="ExpensesV2Model.Banks">
+              <MappingFragment StoreEntitySet="Banks">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Short" ColumnName="Short" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="ExpensesV2Model.Currencies">
+              <MappingFragment StoreEntitySet="Currencies">
+                <ScalarProperty Name="Cod" ColumnName="Cod" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExchangeRates">
+            <EntityTypeMapping TypeName="ExpensesV2Model.ExchangeRates">
+              <MappingFragment StoreEntitySet="ExchangeRates">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="to" ColumnName="to" />
+                <ScalarProperty Name="From" ColumnName="From" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pessoas">
+            <EntityTypeMapping TypeName="ExpensesV2Model.Pessoas">
+              <MappingFragment StoreEntitySet="Pessoas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ExpensesV2Model.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="nivel" ColumnName="nivel" />
+                <ScalarProperty Name="lastlogin" ColumnName="lastlogin" />
+                <ScalarProperty Name="firstlogin" ColumnName="firstlogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vAccounts">
+            <EntityTypeMapping TypeName="ExpensesV2Model.vAccounts">
+              <MappingFragment StoreEntitySet="vAccounts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Liquid" ColumnName="Liquid" />
+                <ScalarProperty Name="AccountDescription" ColumnName="AccountDescription" />
+                <ScalarProperty Name="BankShortName" ColumnName="BankShortName" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="CurrencyDescription" ColumnName="CurrencyDescription" />
+                <ScalarProperty Name="CodCurrency" ColumnName="CodCurrency" />
+                <ScalarProperty Name="Pessoa" ColumnName="Pessoa" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="ExpensesV2Model.Store.udf_TableFromString" FunctionImportName="udf_TableFromString">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExpensesV2Model.udf_TableFromString_Result">
+                <ScalarProperty Name="FieldValue" ColumnName="FieldValue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RPT_GetAccounts" FunctionName="ExpensesV2Model.Store.RPT_GetAccounts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExpensesV2Model.RPT_GetAccounts_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Liquid" ColumnName="Liquid" />
+                <ScalarProperty Name="AccountDescription" ColumnName="AccountDescription" />
+                <ScalarProperty Name="BankShortName" ColumnName="BankShortName" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="CurrencyDescription" ColumnName="CurrencyDescription" />
+                <ScalarProperty Name="CodCurrency" ColumnName="CodCurrency" />
+                <ScalarProperty Name="Pessoa" ColumnName="Pessoa" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RPT_Months" FunctionName="ExpensesV2Model.Store.RPT_Months">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExpensesV2Model.RPT_Months_Result">
+                <ScalarProperty Name="MonthNum" ColumnName="MonthNum" />
+                <ScalarProperty Name="MonthDesc" ColumnName="MonthDesc" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RPT_Years" FunctionName="ExpensesV2Model.Store.RPT_Years" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
