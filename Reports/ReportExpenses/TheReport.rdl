@@ -158,6 +158,10 @@ FROM Currencies</CommandText>
           <QueryParameter Name="@year">
             <Value>=Parameters!year.Value</Value>
           </QueryParameter>
+          <QueryParameter Name="@codcurrency">
+            <Value>=Parameters!Currency.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
         <CommandText>RPT_GetCompareYears</CommandText>
@@ -947,10 +951,10 @@ FROM Currencies</CommandText>
                   <Width>1in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.81646in</Width>
+                  <Width>0.8425in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.88542in</Width>
+                  <Width>0.91271in</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.97396in</Width>
@@ -1916,7 +1920,7 @@ FROM Currencies</CommandText>
             <Top>2.90306in</Top>
             <Left>0.00001in</Left>
             <Height>1in</Height>
-            <Width>6.30083in</Width>
+            <Width>6.35416in</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>

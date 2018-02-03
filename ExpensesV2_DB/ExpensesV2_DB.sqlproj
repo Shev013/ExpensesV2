@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>ExpensesV2_DB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{eb180311-af16-4459-b09a-4e30fe53669f}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>ExpensesV2_DB</RootNamespace>
+    <AssemblyName>ExpensesV2_DB</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Latin1_General_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\AssetsType.sql" />
+    <Build Include="dbo\Tables\Assets.sql" />
+    <Build Include="dbo\Tables\Accounts.sql" />
+    <Build Include="dbo\Tables\AccountsStatements.sql" />
+    <Build Include="dbo\Tables\AccountType.sql" />
+    <Build Include="dbo\Tables\Banks.sql" />
+    <Build Include="dbo\Tables\Expenses.sql" />
+    <Build Include="dbo\Tables\ExpensesSubTypes.sql" />
+    <Build Include="dbo\Tables\Income.sql" />
+    <Build Include="dbo\Tables\Currencies.sql" />
+    <Build Include="dbo\Tables\ExpensesTypes.sql" />
+    <Build Include="dbo\Tables\IncomeTypes.sql" />
+    <Build Include="dbo\Tables\Mortages.sql" />
+    <Build Include="dbo\Tables\MortagesSubTypes.sql" />
+    <Build Include="dbo\Tables\MortagesTypes.sql" />
+    <Build Include="dbo\Tables\PendingsType.sql" />
+    <Build Include="dbo\Tables\Persons.sql" />
+    <Build Include="dbo\Tables\AssetsEvaluationType.sql" />
+    <Build Include="dbo\Tables\Pendings.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\Tables\AssetsStatements.sql" />
+    <Build Include="dbo\Tables\PendingsStatements.sql" />
+    <Build Include="dbo\Tables\ResponsabilitiesType.sql" />
+    <Build Include="dbo\Tables\Responsabilities.sql" />
+    <Build Include="dbo\Tables\ResponsabilitiesStatements.sql" />
+    <Build Include="dbo\Tables\ExchangeRates.sql" />
+    <Build Include="dbo\Views\vAssets.sql" />
+    <Build Include="dbo\Views\vResponsabilities.sql" />
+    <Build Include="dbo\Views\vPendings.sql" />
+    <Build Include="dbo\Views\vAccounts.sql" />
+    <Build Include="dbo\Views\vExpenses.sql" />
+    <Build Include="dbo\Views\vIncomes.sql" />
+    <Build Include="dbo\Views\vExpensesTypes.sql" />
+    <Build Include="Security\47C9YZ1_Pmmra.sql" />
+    <Build Include="dbo\Functions\udf_DaysInMonth.sql" />
+    <Build Include="dbo\Functions\ufn_IsLeapYear.sql" />
+    <Build Include="dbo\Functions\udf_TableFromString.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetAssetsCostOverTime.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetExchangeRate.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetCurrencies.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetSummary.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetAssets.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetResponsabilities.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetPendings.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetAccounts.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_Months.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_Years.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetStatusLiquid.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetStatusLiquidAll.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetStatusLast12Months.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_IncomeVsExpense.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_Income.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_Expenses.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetCompareYears.sql" />
+  </ItemGroup>
+</Project>

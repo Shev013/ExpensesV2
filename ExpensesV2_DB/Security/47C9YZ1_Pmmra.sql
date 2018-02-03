@@ -1,0 +1,2 @@
+﻿CREATE USER [47C9YZ1\Pmmra];
+

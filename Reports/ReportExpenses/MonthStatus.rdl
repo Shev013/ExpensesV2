@@ -87,6 +87,23 @@
         </Field>
       </Fields>
     </DataSet>
+    <DataSet Name="dsCurrencies">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>RPT_GetCurrencies</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Cod">
+          <DataField>Cod</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
   </DataSets>
   <ReportSections>
     <ReportSection>
@@ -337,9 +354,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=FormatNumber(Fields!outcome.Value) + "€"</Value>
+                                  <Value>=Fields!outcome.Value</Value>
                                   <Style>
                                     <FontFamily>tahoma</FontFamily>
+                                    <Format>#,0.00;- #,0.00</Format>
                                     <Color>=IIF(sum(Fields!outcome.Value)&gt;0,"Blue","Red")</Color>
                                   </Style>
                                 </TextRun>
@@ -376,6 +394,9 @@
                             </Parameter>
                             <Parameter Name="Month">
                               <Value>=Fields!mesnum.Value</Value>
+                            </Parameter>
+                            <Parameter Name="Currency">
+                              <Value>=Parameters!Currencies.Value</Value>
                             </Parameter>
                           </Parameters>
                           <Style>
@@ -1201,6 +1222,22 @@
         </DataSetReference>
       </ValidValues>
     </ReportParameter>
+    <ReportParameter Name="Currencies">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>EUR</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Currencies</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsCurrencies</DataSetName>
+          <ValueField>Cod</ValueField>
+          <LabelField>Description</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
@@ -1226,6 +1263,11 @@
           <ColumnIndex>3</ColumnIndex>
           <RowIndex>0</RowIndex>
           <ParameterName>MonthEnd</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>Currencies</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

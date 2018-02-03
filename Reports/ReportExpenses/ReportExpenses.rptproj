@@ -52,10 +52,11 @@
     <DataSource Include="SharedDataSourceExpensesV2.rds" />
   </ItemGroup>
   <ItemGroup>
-    <Report Include="millenniumbcp.pdf" />
+    <Report Include="AssetsCost.rdl" />
     <Report Include="MonthStatus.rdl" />
     <Report Include="MonthStatusDetail.rdl" />
     <Report Include="Notes.txt" />
+    <Report Include="ReleaseNotes.txt" />
     <Report Include="TheReport.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
