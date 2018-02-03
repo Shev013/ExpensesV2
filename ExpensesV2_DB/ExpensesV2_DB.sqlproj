@@ -121,5 +121,6 @@
     <Build Include="dbo\Stored Procedures\RPT_Income.sql" />
     <Build Include="dbo\Stored Procedures\RPT_Expenses.sql" />
     <Build Include="dbo\Stored Procedures\RPT_GetCompareYears.sql" />
+    <Build Include="dbo\Stored Procedures\RPT_GetAssetsList.sql" />
   </ItemGroup>
 </Project>
